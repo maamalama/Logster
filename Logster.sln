@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logster", "Logster\Logster.csproj", "{43A8E5B1-99DB-4782-9B4D-FFFA0E405DCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{21658977-1E93-41FE-BB33-D4F3E1C63552}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Impl", "Impl\Impl.csproj", "{21658977-1E93-41FE-BB33-D4F3E1C63552}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

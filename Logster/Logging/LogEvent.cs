@@ -15,6 +15,9 @@ namespace Logster.Logging
             set => _message = value;
         }
 
-        public LogEvent(string message, params object[]? values) => (_message, _timestamp, _values) = (message, DateTime.UtcNow.ToString(), values);
+        public override string ToString() => $"{Level}: {Message} at {_timestamp}";
+
+        public LogEvent(string message, params object[]? values) =>
+            (_message, _timestamp, _values) = (message, DateTime.UtcNow.ToString(), values);
     }
 }
