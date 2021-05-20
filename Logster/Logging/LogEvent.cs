@@ -7,6 +7,7 @@ namespace Logster.Logging
         private string _message;
         private string _timestamp;
         private object[]? _values;
+        public LoggingLevel Level { get; set; }
 
         public string Message
         {

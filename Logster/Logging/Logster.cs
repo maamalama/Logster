@@ -5,11 +5,13 @@ namespace Logster.Logging
 {
     public class Logster : ILogster
     {
-        private Dictionary<LoggingLevel, LogEvent> _inMemoryLog;
+        private Dictionary<LoggingLevel, List<LogEvent>> _inMemoryLog = new();
 
         public Logster()
         {
-            _inMemoryLog = new();
+            _inMemoryLog.Add(LoggingLevel.Debug, new List<LogEvent>());
+            _inMemoryLog.Add(LoggingLevel.Info, new List<LogEvent>());
+            _inMemoryLog.Add(LoggingLevel.Warn, new List<LogEvent>());
         }
         
         public void Log(string message)
@@ -27,18 +29,24 @@ namespace Logster.Logging
             var logEvent = new LogEvent(message, loggingParams);
         }
 
-        public void AllLogs()
+        public IEnumerable<LogEvent> Logs(LoggingLevel level)
         {
             foreach (var log in _inMemoryLog)
             {
-                Console.WriteLine($"{log.Key}: {log.Value.Message}");
+                lock (log.Value)
+                    foreach (var evnt in log.Value)
+                        yield return evnt;
             }
+                
         }
 
         private void Add(LoggingLevel loggingLevel, LogEvent logEvent)
         {
-            lock(_inMemoryLog)
-                _inMemoryLog.Add(loggingLevel, logEvent);
+            logEvent.Level = loggingLevel;
+            var list = _inMemoryLog[loggingLevel];
+            
+            lock(list)
+                list.Add(logEvent);
         }
     }
 }
