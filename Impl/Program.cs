@@ -24,7 +24,10 @@ namespace Impl
 
             Console.WriteLine("====================");
             Console.WriteLine("Only info");
-            foreach (var log in logger.LogsByLevel(Logger.LoggingLevel.Info))
+
+            var logs = logger.LogsByLevel(Logger.LoggingLevel.Info);
+            
+            foreach (var log in logs)
             {
                 Console.WriteLine(log.ToString());
             }

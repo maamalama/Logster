@@ -9,6 +9,22 @@ namespace Logster.Logging
     {
         private Dictionary<LoggingLevel, List<LogEvent>> _inMemoryLog = new();
         public int Size { get; set; }
+
+        public int Count
+        {
+            get
+            {
+                int _count = 0;
+                foreach (var kv in _inMemoryLog)
+                {
+                    lock (kv.Value)
+                        _count += kv.Value.Count;
+                }
+
+                return _count;
+            }
+        }
+
         public Logster()
         {
             _inMemoryLog.Add(LoggingLevel.Debug, new List<LogEvent>());
@@ -19,14 +35,15 @@ namespace Logster.Logging
         public void Log(string message)
         {
             var logEvent = new LogEvent(message);
-            Add(LoggingLevel.Info,logEvent);
+            Add(LoggingLevel.Info, logEvent);
         }
-        
+
         public void Debug(string message)
         {
             var logEvent = new LogEvent(message);
-            Add(LoggingLevel.Debug,logEvent);
+            Add(LoggingLevel.Debug, logEvent);
         }
+
         public void Debug(string message, params object[]? loggingParams)
         {
             var logEvent = new LogEvent(message, loggingParams);
@@ -49,7 +66,7 @@ namespace Logster.Logging
             logEvent.Level = loggingLevel;
             var list = _inMemoryLog[loggingLevel];
 
-            lock(list)
+            lock (list)
                 list.Add(logEvent);
         }
     }
