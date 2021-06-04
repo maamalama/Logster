@@ -1,6 +1,8 @@
-﻿namespace Logster.Logging
+﻿using System;
+
+namespace Logster.Logging
 {
-    public interface ILogster
+    public interface ILogster : IDisposable
     {
         void Log(string message);
         void Debug(string message);

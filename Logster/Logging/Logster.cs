@@ -7,6 +7,7 @@ namespace Logster.Logging
 {
     public class Logster : ILogster
     {
+        private bool _disposed = false;
         private Dictionary<LoggingLevel, List<LogEvent>> _inMemoryLog = new();
         public int Size { get; set; }
 
@@ -68,6 +69,24 @@ namespace Logster.Logging
 
             lock (list)
                 list.Add(logEvent);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+            if (disposing)
+            {
+                
+            }
+
+            _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }
