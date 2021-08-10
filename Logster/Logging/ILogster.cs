@@ -7,5 +7,6 @@ namespace Logster.Logging
         void Log(string message);
         void Debug(string message);
         void Debug(string message, params object[]? loggingParams);
+        string LoggerInformation();
     }
 }

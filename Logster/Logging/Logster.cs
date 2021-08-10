@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logster.LogExpiration;
 
 namespace Logster.Logging
 {
@@ -10,6 +11,7 @@ namespace Logster.Logging
         private bool _disposed = false;
         private Dictionary<LoggingLevel, List<LogEvent>> _inMemoryLog = new();
         public int Size { get; set; }
+        public Expiration Expiration { get; set; }
 
         public int Count
         {
@@ -28,6 +30,7 @@ namespace Logster.Logging
 
         public Logster()
         {
+            Expiration = new Expiration();
             _inMemoryLog.Add(LoggingLevel.Debug, new List<LogEvent>());
             _inMemoryLog.Add(LoggingLevel.Info, new List<LogEvent>());
             _inMemoryLog.Add(LoggingLevel.Warn, new List<LogEvent>());
@@ -50,7 +53,9 @@ namespace Logster.Logging
             var logEvent = new LogEvent(message, loggingParams);
         }
 
-        public IEnumerable<LogEvent> Logs(LoggingLevel level)
+        public string LoggerInformation() => $"Expiration time: {Expiration}";
+
+        public IEnumerable<LogEvent> Logs()
         {
             foreach (var log in _inMemoryLog)
             {

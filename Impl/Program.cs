@@ -1,4 +1,5 @@
 ﻿using System;
+using Logster.Extensions;
 using Logger = Logster.Logging;
 
 namespace Impl
@@ -8,6 +9,7 @@ namespace Impl
         static void Main(string[] args)
         {
             var logger = new Logger.Logster();
+            logger.AddLogLifetime(30);
 
             logger.Debug("First message");
             logger.Debug("Second message");
@@ -17,7 +19,7 @@ namespace Impl
             
             Console.WriteLine("====================");
 
-            foreach (var log in logger.Logs(Logger.LoggingLevel.Debug))
+            foreach (var log in logger.LogsByLevel(Logger.LoggingLevel.Debug))
             {
                 Console.WriteLine(log.ToString());
             }
@@ -32,6 +34,7 @@ namespace Impl
                 Console.WriteLine(log.ToString());
             }
 
+            Console.WriteLine(logger.LoggerInformation());
 
             Console.WriteLine("====================");
         }
